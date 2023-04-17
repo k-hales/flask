@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('git') {
       steps {
-        sh 'copy https://github.com/k-hales/flask.git'
+        git(url: 'https://github.com/k-hales/flask', branch: 'main')
       }
     }
 
