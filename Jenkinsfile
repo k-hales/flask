@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+        registry = 'khales7/flask_app'
+        registryCredentials = 'docker'
+        cluster_name = 'skillstorm'
+    }
   agent {
     node {
       label 'docker'
@@ -6,29 +11,26 @@ pipeline {
 
   }
   stages {
-    stage('git') {
+    stage('Git') {
       steps {
-        git(url: 'https://github.com/k-hales/flask', branch: 'main')
+        git(url: 'https://github.com/k-hales/flask.git', branch: 'main')
       }
     }
-
-    stage('build') {
-      steps {
-        sh 'docker build -t k-hales/flask_app .'
+stage('Build Stage') {
+    steps {
+        script {
+            dockerImage = docker.build(registry)
+        }
       }
     }
-
-    stage('docker login') {
-      steps {
-        sh 'docker login -u k-hales -p dckr_pat_yv-6kKwy4T974w-pV79IWDq_fKA'
+stage('Deploy Stage') {
+    steps {
+        script {
+           docker.withRegistry('', registryCredentials) {
+                dockerImage.push()
+            }
+          }
+        }
       }
     }
-
-    stage('docker push') {
-      steps {
-        sh 'docker push k-hales/flask_app'
-      }
-    }
-
-  }
 }
