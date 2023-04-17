@@ -14,19 +14,19 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'docker build -t k-hales/flask_app .'
+        sh 'docker build -t khales7/flask_app .'
       }
     }
 
     stage('docker login') {
       steps {
-        sh 'docker login -u k-hales -p dckr_pat_yv-6kKwy4T974w-pV79IWDq_fKA'
+        sh 'docker login -u khales7 -p dckr_pat_yv-6kKwy4T974w-pV79IWDq_fKA'
       }
     }
 
     stage('docker push') {
       steps {
-        sh 'docker push k-hales/flask_app'
+        sh 'docker push khales7/flask_app'
       }
     }
 
